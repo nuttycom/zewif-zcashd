@@ -5,8 +5,6 @@ use zcash_address::{ToAddress, ZcashAddress, unified::Encoding};
 use zewif::{Blob, Blob32, Network};
 use zewif::{parse, parser::prelude::*};
 
-use crate::zewif_network_to_zcash_address_network;
-
 #[derive(Debug, Clone, PartialEq, Eq, Hash)]
 pub struct OrchardRawAddress {
     diversifier: Blob<11>,
@@ -38,10 +36,7 @@ impl OrchardRawAddress {
             .expect("A single valid receiver should create a valid unified address");
 
         // Create a ZcashAddress from the unified address
-        let addr = ZcashAddress::from_unified(
-            zewif_network_to_zcash_address_network(network),
-            unified_addr,
-        );
+        let addr = ZcashAddress::from_unified(network.into(), unified_addr);
         addr.to_string()
     }
 }
